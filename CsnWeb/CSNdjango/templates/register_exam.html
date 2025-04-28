@@ -1,0 +1,44 @@
+<!-- ExamWeb/templates/register_exam.html -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Register for an Exam</title>
+</head>
+<body>
+
+<h2>Register for an Exam</h2>
+
+<form method="POST" action="{% url 'register_exam' %}">
+    {% csrf_token %}
+    <label for="exam">Select an Exam:</label><br><br>
+
+    <select name="exam_id" required>
+        {% for exam in exams %}
+            {% if exam.examregistration_set.count < exam.capacity %}
+                <option value="{{ exam.id }}">
+                    {{ exam.exam_name }} — {{ exam.exam_date }} at {{ exam.exam_time }}
+                </option>
+            {% endif %}
+        {% endfor %}
+    </select>
+
+    <br><br>
+    <button type="submit">Register</button>
+</form>
+
+<!-- Display messages -->
+{% if messages %}
+    <ul>
+        {% for message in messages %}
+            <li>{{ message }}</li>
+        {% endfor %}
+    </ul>
+{% endif %}
+
+<br>
+<a href="{% url 'student_dashboard' %}">Back to Dashboard</a>
+
+</body>
+</html>

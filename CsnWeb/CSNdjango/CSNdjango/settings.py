@@ -41,6 +41,8 @@ INSTALLED_APPS = [
     'ExamWeb',
 ]
 
+AUTH_USER_MODEL = 'ExamWeb.CustomUser' 
+
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',

@@ -1,0 +1,37 @@
+<!-- ExamWeb/templates/student_dashboard.html -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Student Dashboard</title>
+</head>
+<body>
+
+<h2>Welcome, {{ user.username }}!</h2>
+
+<h3>Your Registered Exams</h3>
+
+{% if registrations %}
+    <ul>
+        {% for registration in registrations %}
+            <li>
+                {{ registration.exam.exam_name }} on {{ registration.exam.exam_date }} at {{ registration.exam.exam_time }}
+                <!-- Cancel Button -->
+                <form method="POST" action="{% url 'cancel_registration' registration.id %}" style="display:inline;">
+                    {% csrf_token %}
+                    <button type="submit">Cancel</button>
+                </form>
+            </li>
+        {% endfor %}
+    </ul>
+{% else %}
+    <p>You have not registered for any exams yet.</p>
+{% endif %}
+
+<br>
+<a href="{% url 'register_exam' %}">Register for More Exams</a><br>
+<a href="{% url 'logout' %}">Logout</a>
+
+</body>
+</html>
