@@ -1,1 +1,40 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
 
+	<head>
+		<meta charset="utf-8">
+		<link rel="stylesheet" href="styles.css">
+		<!--<title>Confirm exam?</title>-->
+	</head>
+	<body class="bg-light">
+	
+	<div class="container mt-5">
+		<div class="row justify-content-center">
+			<div class="col-md-5">
+				<div class="card p-4">
+					<h2 class="text-center">Confirm exam?</h2>
+
+					<form method="POST">
+						<div class="mb-3">
+
+							<button type="submit" class="btn btn-success w-50">
+							<a href="{% url 'student_dashboard' %">Confirm</a></button>
+							
+							<button type="submit" class="btn btn-success w-50">
+							<a href="{% url 'student_home' %">Cancel</a></button>
+							
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+	</body>
+</html>
+
+
+<!--
+add:
+-exam information in above confirmation
+-make it pretty
+-->
