@@ -20,7 +20,7 @@ def RegisterView(request):
 
         if user is not None:
             if user.email.endswith('@student.csn.edu') or user.email.endswith('@csn.edu'):
-                login(request, user)
+                register(request, user)
                 if user.role == 'student':
                     return redirect('student_home')
                 elif user.role == 'faculty':
