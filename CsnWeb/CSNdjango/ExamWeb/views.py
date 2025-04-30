@@ -17,38 +17,27 @@ def RegisterView(request):
         email = request.POST.get('email')
         password = request.POST.get('password')
         role = 'student'  # 👈 hardcode for now
-        valid = False
-
-       if user is not None:
-            if user.email.endswith('@student.csn.edu') or user.email.endswith('@csn.edu'):
-         #       register(request, user)
-            valid = True
-
-        if valid == True:
         
-            if CustomUser.objects.filter(username=email).exists():
-                messages.error(request, "Email already exists.")
-                return redirect('register')
-    
-            if len(password) < 8:
-                messages.error(request, "Password must be at least 8 characters.")
-                return redirect('register')
-    
-            user = CustomUser.objects.create_user(
-                username=email,
-                email=email,
-                first_name=first_name,
-                last_name=last_name,
-                password=password,
-                role=role
-            )
-    
-            messages.success(request, "Account created successfully. Please log in.")
-            return redirect('login')
-        
-        else:
-            messages.error(request, "Only CSN emails are allowed.")
+        if CustomUser.objects.filter(username=email).exists():
+            messages.error(request, "Email already exists.")
             return redirect('register')
+
+        if len(password) < 8:
+            messages.error(request, "Password must be at least 8 characters.")
+            return redirect('register')
+
+        user = CustomUser.objects.create_user(
+            username=email,
+            email=email,
+            first_name=first_name,
+            last_name=last_name,
+            password=password,
+            role=role
+        )
+
+        messages.success(request, "Account created successfully. Please log in.")
+        return redirect('login')
+        
 
     return render(request, 'register.html')
 
