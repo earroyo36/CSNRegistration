@@ -22,7 +22,7 @@ def RegisterView(request):
         #    if user.email.endswith('@student.csn.edu') or user.email.endswith('@csn.edu'):
          #       register(request, user)
           #  else:
-           ##     messages.error(request, "Only CSN emails are allowed.")
+           #     messages.error(request, "Only CSN emails are allowed.")
              #   return redirect('register')
                 
         if CustomUser.objects.filter(username=email).exists():
