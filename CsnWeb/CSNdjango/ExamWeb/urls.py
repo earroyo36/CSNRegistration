@@ -20,6 +20,6 @@ urlpatterns =[
     path('reset/<uidb64>/<token>/', views.ResetPasswordConfirmView.as_view(), name='password_reset_confirm'),
 
     # Exam confirmation
-    #path('exam_confirmation/', views.exam_confirmation, name='exam_confirmation'),
+    path('exam_confirmation/', views.exam_confirmation, name='exam_confirmation'),
 
 ]

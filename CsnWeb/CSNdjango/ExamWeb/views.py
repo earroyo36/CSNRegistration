@@ -147,5 +147,5 @@ class ResetPasswordConfirmView(PasswordResetConfirmView):
 def password_reset_sent(request):
     return render(request, 'password_reset_sent.html')
 
-#def exam_confirmation(request):
- #   return render(request, 'exam_confirmation.html')
+def exam_confirmation(request):
+    return render(request, 'exam_confirmation.html')
