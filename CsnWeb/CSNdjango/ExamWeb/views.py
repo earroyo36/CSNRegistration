@@ -18,12 +18,12 @@ def RegisterView(request):
         password = request.POST.get('password')
         role = 'student'  # 👈 hardcode for now
 
-        if user is not None:
-            if user.email.endswith('@student.csn.edu') or user.email.endswith('@csn.edu'):
-                register(request, user)
-            else:
-                messages.error(request, "Only CSN emails are allowed.")
-                return redirect('register')
+       # if user is not None:
+        #    if user.email.endswith('@student.csn.edu') or user.email.endswith('@csn.edu'):
+         #       register(request, user)
+          #  else:
+           ##     messages.error(request, "Only CSN emails are allowed.")
+             #   return redirect('register')
                 
         if CustomUser.objects.filter(username=email).exists():
             messages.error(request, "Email already exists.")
