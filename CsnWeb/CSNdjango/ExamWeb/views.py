@@ -18,6 +18,20 @@ def RegisterView(request):
         password = request.POST.get('password')
         role = 'student'  # 👈 hardcode for now
 
+        if user is not None:
+            if user.email.endswith('@student.csn.edu') or user.email.endswith('@csn.edu'):
+                login(request, user)
+                if user.role == 'student':
+                    return redirect('student_home')
+                elif user.role == 'faculty':
+                    return redirect('faculty_dashboard')  # Later when faculty dashboard is built
+                else:
+                    messages.error(request, "Invalid user role.")
+                    return redirect('register')
+            else:
+                messages.error(request, "Only CSN emails are allowed.")
+                return redirect('register')
+                
         if CustomUser.objects.filter(username=email).exists():
             messages.error(request, "Email already exists.")
             return redirect('register')
