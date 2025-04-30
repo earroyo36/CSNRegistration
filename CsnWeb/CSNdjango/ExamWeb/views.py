@@ -24,7 +24,7 @@ def RegisterView(request):
          #       register(request, user)
             valid = True
 
-        if valid = True:
+        if valid == True:
         
             if CustomUser.objects.filter(username=email).exists():
                 messages.error(request, "Email already exists.")
