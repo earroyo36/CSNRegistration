@@ -1,9 +1,10 @@
-div.positionRight {
+.register {
+	text-align: center;
 	position: relative;
-	left: 25px;
+	#left: 25px;
 }
 
-div.positionLeft {
+.logout {
 	position: relative;
 	right: 25px;
 }
