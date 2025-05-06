@@ -1,10 +1,32 @@
 .register {
 	text-align: center;
 	position: relative;
-	#left: 25px;
+}
+
+.welcome {
+	font-size: 21px;
+	text-align: center;
+	position: relative;
+	top: 45px;
 }
 
 .logout {
+	text-align: center;
 	position: relative;
-	right: 25px;
+	#top: 15px;
+	top: 600px;
+}
+
+.button {
+	color: white;
+	background-color: #198754;
+	border: none;
+	border-radius: 10px;
+	padding: 8px 10px;
+	text-align:	center;
+}
+
+.option {
+	border: none;
+	border-radius: 10px;
 }
