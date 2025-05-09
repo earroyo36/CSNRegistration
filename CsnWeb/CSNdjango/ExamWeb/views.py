@@ -19,12 +19,12 @@ def RegisterView(request):
         role = 'student'  # 👈 hardcode for now
 
        # if user is not None:
-            if user.email.endswith('@student.csn.edu') or user.email.endswith('@csn.edu'):
-         #       register(request, user)
-            else:
-                messages.error(request, "Only CSN emails are allowed.")
-                return redirect('register')
-                
+        if user.email.endswith('@student.csn.edu') or user.email.endswith('@csn.edu'):
+            # register(request, user)
+            pass
+        else:
+            messages.error(request, "Only CSN emails are allowed.")
+            return redirect('register') 
         if CustomUser.objects.filter(username=email).exists():
             messages.error(request, "Email already exists.")
             return redirect('register')
@@ -157,3 +157,4 @@ def password_reset_sent(request):
 
 def exam_confirmation(request):
     return render(request, 'exam_confirmation.html')
+

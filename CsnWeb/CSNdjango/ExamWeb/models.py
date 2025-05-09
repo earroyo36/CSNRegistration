@@ -15,7 +15,7 @@ class Exam(models.Model):
     exam_date = models.DateField()
     exam_time = models.TimeField()
     capacity = models.IntegerField(default=20)
-
+    
     def __str__(self):
         return f"{self.exam_name} on {self.exam_date} at {self.exam_time}"
 
@@ -27,3 +27,11 @@ class ExamRegistration(models.Model):
 
     def __str__(self):
         return f"{self.student.username} - {self.exam.exam_name}"
+    
+class Location(models.Model):
+    campus_name = models.CharField(max_length=100)
+    building_number = models.CharField(max_length=10)
+    room_number = models.CharField(max_length=10)
+
+    def __str__(self):
+        return f"{self.campus_name} - Bldg {self.building_number}, Room {self.room_number}"
