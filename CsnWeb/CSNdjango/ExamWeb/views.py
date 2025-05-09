@@ -18,9 +18,9 @@ def RegisterView(request):
         password = request.POST.get('password')
         role = 'student'  # 👈 hardcode for now
 
-        if user is not None:
+       # if user is not None:
             if user.email.endswith('@student.csn.edu') or user.email.endswith('@csn.edu'):
-               register(request, user)
+         #       register(request, user)
             else:
                 messages.error(request, "Only CSN emails are allowed.")
                 return redirect('register')
@@ -44,6 +44,7 @@ def RegisterView(request):
 
         messages.success(request, "Account created successfully. Please log in.")
         return redirect('login')
+        
 
     return render(request, 'register.html')
 
