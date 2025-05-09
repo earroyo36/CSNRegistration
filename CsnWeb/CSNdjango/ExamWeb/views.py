@@ -158,3 +158,33 @@ def password_reset_sent(request):
 def exam_confirmation(request):
     return render(request, 'exam_confirmation.html')
 
+@login_required
+def register_exam(request):
+    if request.method == 'POST':
+        exam_id = request.POST.get('exam_id')
+        student = request.user
+
+        try:
+            exam = Exam.objects.get(id=exam_id)
+        except Exam.DoesNotExist:
+            messages.error(request, "Exam not found.")
+            return redirect('student_home')
+
+        if ExamRegistration.objects.filter(exam=exam).count() >= exam.capacity:
+            messages.error(request, "This exam is full.")
+            return redirect('student_home')
+
+        if ExamRegistration.objects.filter(student=student, exam=exam).exists():
+            messages.error(request, "You already registered for this exam.")
+            return redirect('student_home')
+
+        if ExamRegistration.objects.filter(student=student).count() >= 3:
+            messages.error(request, "You cannot register for more than 3 exams.")
+            return redirect('student_home')
+
+        ExamRegistration.objects.create(student=student, exam=exam)
+        messages.success(request, "Successfully registered for the exam!")
+        return redirect('exam_confirmation')
+    else:
+        exams = Exam.objects.all()
+        return render(request, 'register_exam.html', {'exams': exams})

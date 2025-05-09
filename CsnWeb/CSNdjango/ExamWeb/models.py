@@ -22,7 +22,7 @@ class Exam(models.Model):
 # Exam Registration model
 class ExamRegistration(models.Model):
     student = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
-    exam = models.ForeignKey(Exam, on_delete=models.CASCADE)
+    exam = models.ForeignKey(Exam, on_delete=models.CASCADE, related_name='registrations')
     registration_date = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
