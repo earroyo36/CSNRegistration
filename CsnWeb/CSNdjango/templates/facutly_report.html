@@ -1,68 +1,75 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Faculty Exam Report</title>
-</head>
-<body>
-    <h1>Exam Registration Report</h1>
-    <form method="get">
-        <label for="exam">Exam:</label>
-        <select name="exam" id="exam">
-            <option value="">All</option>
-            {% for exam in exams %}
-                <option value="{{ exam.id }}" {% if exam.id|stringformat:"s" == selected_exam %}selected{% endif %}>
-                    {{ exam.exam_name }}
-                </option>
-            {% endfor %}
-        </select>
+{% extends 'base.html' %}
+{% block content %}
+<h2>Faculty Exam Report Lookup</h2>
 
-        <label for="date">Date:</label>
-        <select name="date" id="date">
-            <option value="">All</option>
-            {% for date in dates %}
-                <option value="{{ date }}" {% if date|stringformat:"s" == selected_date %}selected{% endif %}>
-                    {{ date }}
-                </option>
-            {% endfor %}
-        </select>
-
-        <label for="campus">Campus:</label>
-        <select name="campus" id="campus">
-            <option value="">All</option>
-            {% for location in locations %}
-                <option value="{{ location.campus_name }}" {% if location.campus_name == selected_campus %}selected{% endif %}>
-                    {{ location.campus_name }}
-                </option>
-            {% endfor %}
-        </select>
-
-        <button type="submit">Filter</button>
-    </form>
-
-    <h2>Registered Students</h2>
-    <table border="1">
-        <tr>
-            <th>Student Name</th>
-            <th>Email</th>
-            <th>Exam</th>
-            <th>Date</th>
-            <th>Time</th>
-            <th>Campus</th>
-        </tr>
-        {% for registration in registrations %}
-            <tr>
-                <td>{{ registration.student.first_name }} {{ registration.student.last_name }}</td>
-                <td>{{ registration.student.email }}</td>
-                <td>{{ registration.exam.exam_name }}</td>
-                <td>{{ registration.exam.exam_date }}</td>
-                <td>{{ registration.exam.exam_time }}</td>
-                <td>{{ registration.exam.location.campus_name }}</td>
-            </tr>
-        {% empty %}
-            <tr>
-                <td colspan="6">No registrations found.</td>
-            </tr>
+<form method="GET" action="{% url 'faculty_report' %}">
+    <label for="exam">Exam:</label>
+    <select name="exam" id="exam">
+        <option value="">-- Select Exam --</option>
+        {% for exam in exams %}
+            <option value="{{ exam.id }}" {% if exam.id|stringformat:"s" == selected_exam %}selected{% endif %}>
+                {{ exam.exam_name }}
+            </option>
         {% endfor %}
+    </select>
+
+    <label for="date">Date:</label>
+    <select name="date" id="date">
+        <option value="">-- Select Date --</option>
+        {% for date in dates %}
+            <option value="{{ date }}" {% if date|stringformat:"s" == selected_date %}selected{% endif %}>
+                {{ date }}
+            </option>
+        {% endfor %}
+    </select>
+
+    <label for="campus">Campus:</label>
+    <select name="campus" id="campus">
+        <option value="">-- Select Campus --</option>
+        {% for campus in locations %}
+            <option value="{{ campus.campus_name }}" {% if campus.campus_name == selected_campus %}selected{% endif %}>
+                {{ campus.campus_name }}
+            </option>
+        {% endfor %}
+    </select>
+
+    <button type="submit">View Report</button>
+</form>
+
+{% if registrations %}
+    <h3>Registered Students</h3>
+    <table>
+        <thead>
+            <tr>
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th>Email</th>
+                <th>Exam</th>
+                <th>Date</th>
+                <th>Time</th>
+                <th>Campus</th>
+                <th>Building</th>
+                <th>Room</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for reg in registrations %}
+            <tr>
+                <td>{{ reg.student.first_name }}</td>
+                <td>{{ reg.student.last_name }}</td>
+                <td>{{ reg.student.email }}</td>
+                <td>{{ reg.exam.exam_name }}</td>
+                <td>{{ reg.exam.exam_date }}</td>
+                <td>{{ reg.exam.exam_time }}</td>
+                <td>{{ reg.exam.location.campus_name }}</td>
+                <td>{{ reg.exam.location.building_number }}</td>
+                <td>{{ reg.exam.location.room_number }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
     </table>
-</body>
-</html>
+{% elif request.GET %}
+    <p>No registrations found for selected criteria.</p>
+{% endif %}
+
+{% endblock %}

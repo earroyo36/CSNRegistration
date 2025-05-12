@@ -190,6 +190,7 @@ def register_exam(request):
         return render(request, 'register_exam.html', {'exams': exams})
     
 @login_required
+@user_passes_test(is_faculty)
 def faculty_report_view(request):
     exams = Exam.objects.all()
     locations = Location.objects.all()
@@ -199,10 +200,10 @@ def faculty_report_view(request):
     selected_date = request.GET.get('date')
     selected_campus = request.GET.get('campus')
 
-    registrations = ExamRegistration.objects.all()
+    registrations = ExamRegistration.objects.select_related('student', 'exam__location')
 
     if selected_exam:
-        registrations = registrations.filter(exam__id=selected_exam)
+        registrations = registrations.filter(exam__id=int(selected_exam))
     if selected_date:
         registrations = registrations.filter(exam__exam_date=selected_date)
     if selected_campus:
