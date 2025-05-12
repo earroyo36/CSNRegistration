@@ -1,5 +1,6 @@
 from django.contrib.auth.models import AbstractUser
 from django.db import models
+from django.conf import settings
 
 # Custom user model
 class CustomUser(AbstractUser):
@@ -15,7 +16,9 @@ class Exam(models.Model):
     exam_date = models.DateField()
     exam_time = models.TimeField()
     capacity = models.IntegerField(default=20)
-    
+    location = models.ForeignKey(Location, on_delete=models.CASCADE)
+    proctor = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, limit_choices_to={'role': 'faculty'})
+
     def __str__(self):
         return f"{self.exam_name} on {self.exam_date} at {self.exam_time}"
 

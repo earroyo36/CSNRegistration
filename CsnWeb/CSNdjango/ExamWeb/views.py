@@ -188,3 +188,34 @@ def register_exam(request):
     else:
         exams = Exam.objects.all()
         return render(request, 'register_exam.html', {'exams': exams})
+    
+@login_required
+def faculty_report_view(request):
+    exams = Exam.objects.all()
+    locations = Location.objects.all()
+    dates = Exam.objects.values_list('exam_date', flat=True).distinct()
+
+    selected_exam = request.GET.get('exam')
+    selected_date = request.GET.get('date')
+    selected_campus = request.GET.get('campus')
+
+    registrations = ExamRegistration.objects.all()
+
+    if selected_exam:
+        registrations = registrations.filter(exam__id=selected_exam)
+    if selected_date:
+        registrations = registrations.filter(exam__exam_date=selected_date)
+    if selected_campus:
+        registrations = registrations.filter(exam__location__campus_name=selected_campus)
+
+    context = {
+        'exams': exams,
+        'locations': locations,
+        'dates': dates,
+        'registrations': registrations,
+        'selected_exam': selected_exam,
+        'selected_date': selected_date,
+        'selected_campus': selected_campus,
+    }
+
+    return render(request, 'faculty_report.html', context)

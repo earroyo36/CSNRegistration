@@ -22,4 +22,6 @@ urlpatterns =[
     # Exam confirmation
     path('exam_confirmation/', views.exam_confirmation, name='exam_confirmation'),
 
+    path('faculty/report/', views.faculty_report_view, name='faculty_report'),
 ]
+
