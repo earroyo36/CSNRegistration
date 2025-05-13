@@ -1,9 +1,12 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib import messages
 from django.contrib.auth.views import PasswordResetView, PasswordResetConfirmView
-from .models import CustomUser, Exam, ExamRegistration
+from .models import CustomUser, Exam, ExamRegistration, Location
+
+def is_faculty(user):
+    return user.is_authenticated and user.role == 'faculty'
 
 @login_required
 def Home(request):
@@ -16,15 +19,15 @@ def RegisterView(request):
         last_name = request.POST.get('last_name')
         email = request.POST.get('email')
         password = request.POST.get('password')
-        role = 'student'  # 👈 hardcode for now
 
-       # if user is not None:
-        if user.email.endswith('@student.csn.edu') or user.email.endswith('@csn.edu'):
-            # register(request, user)
-            pass
+        if email.endswith('@student.csn.edu'):
+            role = 'student'
+        elif email.endswith('@csn.edu'):
+            role = 'faculty'
         else:
             messages.error(request, "Only CSN emails are allowed.")
-            return redirect('register') 
+            return redirect('register')
+
         if CustomUser.objects.filter(username=email).exists():
             messages.error(request, "Email already exists.")
             return redirect('register')
@@ -33,6 +36,7 @@ def RegisterView(request):
             messages.error(request, "Password must be at least 8 characters.")
             return redirect('register')
 
+        # create user only after validation
         user = CustomUser.objects.create_user(
             username=email,
             email=email,
@@ -44,7 +48,6 @@ def RegisterView(request):
 
         messages.success(request, "Account created successfully. Please log in.")
         return redirect('login')
-        
 
     return render(request, 'register.html')
 
@@ -58,17 +61,13 @@ def LoginView(request):
         user = authenticate(request, username=username, password=password)
 
         if user is not None:
-            if user.email.endswith('@student.csn.edu') or user.email.endswith('@csn.edu'):
-                login(request, user)
-                if user.role == 'student':
-                    return redirect('student_home')
-                elif user.role == 'faculty':
-                    return redirect('faculty_dashboard')  # Later when faculty dashboard is built
-                else:
-                    messages.error(request, "Invalid user role.")
-                    return redirect('login')
+            login(request, user)
+            if user.role == 'student':
+                return redirect('student_home')
+            elif user.role == 'faculty':
+                return redirect('faculty_report')
             else:
-                messages.error(request, "Only CSN emails are allowed.")
+                messages.error(request, "Invalid user role.")
                 return redirect('login')
         else:
             messages.error(request, "Invalid login credentials.")
@@ -219,4 +218,4 @@ def faculty_report_view(request):
         'selected_campus': selected_campus,
     }
 
-    return render(request, 'faculty_report.html', context)
+    return render(request, 'ExamWeb/faculty_report.html', context)

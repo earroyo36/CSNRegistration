@@ -8,7 +8,16 @@ class CustomUser(AbstractUser):
         ('student', 'Student'),
         ('faculty', 'Faculty'),
     )
-    role = models.CharField(max_length=10, choices=ROLE_CHOICES, default='student')
+    role = models.CharField(max_length=10, choices=ROLE_CHOICES)
+
+    
+class Location(models.Model):
+    campus_name = models.CharField(max_length=100)
+    building_number = models.CharField(max_length=10)
+    room_number = models.CharField(max_length=10)
+
+    def __str__(self):
+        return f"{self.campus_name} - Bldg {self.building_number}, Room {self.room_number}"
 
 # Exam model
 class Exam(models.Model):
@@ -31,10 +40,3 @@ class ExamRegistration(models.Model):
     def __str__(self):
         return f"{self.student.username} - {self.exam.exam_name}"
     
-class Location(models.Model):
-    campus_name = models.CharField(max_length=100)
-    building_number = models.CharField(max_length=10)
-    room_number = models.CharField(max_length=10)
-
-    def __str__(self):
-        return f"{self.campus_name} - Bldg {self.building_number}, Room {self.room_number}"

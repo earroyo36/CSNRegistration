@@ -10,6 +10,7 @@ urlpatterns =[
     path('logout/', views.LogoutView, name='logout'),
 
     path('student_home/', views.StudentHomeView, name='student_home'),
+    path('faculty/report/', views.faculty_report_view, name='faculty_report'),
     path('student_dashboard/', views.StudentDashboardView, name='student_dashboard'),
     path('register_exam/', views.RegisterExamView, name='register_exam'),
     path('cancel_registration/<int:registration_id>/', views.CancelRegistrationView, name='cancel_registration'),
@@ -22,6 +23,5 @@ urlpatterns =[
     # Exam confirmation
     path('exam_confirmation/', views.exam_confirmation, name='exam_confirmation'),
 
-    path('faculty/report/', views.faculty_report_view, name='faculty_report'),
 ]
 
