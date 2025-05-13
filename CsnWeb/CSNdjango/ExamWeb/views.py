@@ -218,4 +218,4 @@ def faculty_report_view(request):
         'selected_campus': selected_campus,
     }
 
-    return render(request, 'ExamWeb/faculty_report.html', context)
+    return render(request, 'faculty_report.html', context)
