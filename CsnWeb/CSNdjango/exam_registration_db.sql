@@ -54,7 +54,7 @@ CREATE TABLE Exam (
     Proctor_ID INT,
     Current_Count INT DEFAULT 0,
     Capacity INT DEFAULT 20,
-    FOREIGN KEY (Location_ID) REFERENCES Location(Location_ID)
+    FOREIGN KEY (Location_ID) REFERENCES Location(Location_ID),
     FOREIGN KEY (Proctor_ID) REFERENCES Faculty(Faculty_ID)
 );
 
@@ -199,3 +199,4 @@ INSERT INTO Exam_Registration (Registration_ID, Student_ID, Exam_ID, Registratio
 (29, 30, 5, '2025-05-01'),
 (30, 31, 5, '2025-05-01'),
 (31, 32, 5, '2025-05-01');
+

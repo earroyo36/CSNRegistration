@@ -184,10 +184,23 @@ def register_exam(request):
         ExamRegistration.objects.create(student=student, exam=exam)
         messages.success(request, "Successfully registered for the exam!")
         return redirect('exam_confirmation')
+
     else:
         exams = Exam.objects.all()
-        return render(request, 'register_exam.html', {'exams': exams})
-    
+
+        subjects = exams.values_list('subject__name', flat=True).distinct()
+        dates = exams.values_list('date', flat=True).distinct()
+        times = exams.values_list('time', flat=True).distinct()
+        buildings = exams.values_list('location__name', flat=True).distinct()
+
+        return render(request, 'register_exam.html', {
+            'exams': exams,
+            'subjects': subjects,
+            'dates': dates,
+            'times': times,
+            'buildings': buildings,
+        })
+
 @login_required
 @user_passes_test(is_faculty)
 def faculty_report_view(request):
